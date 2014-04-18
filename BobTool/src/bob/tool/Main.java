@@ -17,9 +17,6 @@ import bob.core.Utils;
 
 public class Main extends JFrame {
 	
-	/** eindeutiger Programmname */
-	public static final String PROGRAM_NAME = "BobTool v0.1";
-	
 	/** die Build-Nummer aus <tt>/src/resources/burtool.build</tt> */
 	public static String BUILD_NUMBER = null;
 	
@@ -39,25 +36,24 @@ public class Main extends JFrame {
 	
 	private final PluginManager pm;
 	
-	/**
-	 * Startet die Anwendung.
-	 * @param args optinonale Konsolenparameter
-	 */
-	public static void main(final String[] args) {
+	private final String programName;
+	
+	public static void startApp(final String title) {
 		// Ausnahemfehler protokollieren
-		final BobCrashHandler handler = new BobCrashHandler(PROGRAM_NAME);
+		final BobCrashHandler handler = new BobCrashHandler(title);
 		Thread.setDefaultUncaughtExceptionHandler(handler);
 		// Oberfläche starten
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				Utils.setupNimbus();
-				new Main();
+				new Main(title);
 			}
 		});
 	}
 	
-	public Main() {
+	public Main(final String programName) {
+		this.programName = programName;
 		// Icon für Anwendung
 		final ImageIcon icon = 
 				new ImageIcon(Main.class.getResource(PROGRAM_IMAGE));
@@ -102,7 +98,7 @@ public class Main extends JFrame {
 	}
 
 	public void setupTitle() {
-		final StringBuffer sb = new StringBuffer(PROGRAM_NAME);
+		final StringBuffer sb = new StringBuffer(programName);
 		if (demoActivated) {
 			sb.append(BobConstants.SPACE).append("[DEMO]");
 		}
