@@ -2,6 +2,6 @@
 
 An application for distributed tools.
 
-# BbncTool
+# BbmcTool
 
 An example application for the BobTool.
