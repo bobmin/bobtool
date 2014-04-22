@@ -17,4 +17,7 @@ public class BobConstants {
     /** Encoding Windows */
 	public static final String CHARSET_WINDOWS = "Cp1252";
 
+	/** Meldung "Eingabe NICHT verwendbar." */
+	public static final String INPUT_NOT_USABLE = "Eingabe NICHT verwendbar.";
+
 }

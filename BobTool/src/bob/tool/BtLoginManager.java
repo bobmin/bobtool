@@ -1,44 +1,42 @@
 package bob.tool;
 
+
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.logging.Logger;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
-import bob.api.IChangeable;
-import bob.core.BobIcon;
-import bob.core.BobUserIdent;
+import bob.api.IUserIdent;
+import bob.core.Services;
+import bob.demo.DemoUserIdent;
+import bob.tool.actions.LoginAction;
 
 /**
- * Organisiert die Anmeldung und Abmeldung vom Programm.
+ * Organisiert die An- und Abmeldung eines Benutzer vom Programm.
  * 
  * @author maik@btmx.net
  *
  */
 public class BtLoginManager {
-
-	/** Beschriftung Anmelden */
-	private static final String ANMELDEN_LABEL = "Anmelden";
-
-	/** Beschreibung Anmelden */
-	private static final String ANMELDEN_DESC = 
-			"Erfragt Benutzername und Kennwort. Bei erfolgreicher " +
-			"Anmeldung stehen erweiterte Funktionen zur Verfügung.";
-
-	/** Beschriftung Abmelden */
-	private static final String ABMELDEN_LABEL = "Abmelden";
-
-	/** Beschreibung Abmelden */
-	private static final String ABMELDEN_DESC = 
-			"Benutzer abmelden und die erweiterten " +
-			"Funktionen deaktivieren.";
+	
+	/** ein Logger */
+	private static final Logger LOG = 
+			Logger.getLogger(BtLoginManager.class.getName());
 
 	/** Meldung wenn erfolgreich abgemeldet */
 	private static final String LOGOUT_SUCCESS = "Erfolgreich abgemeldet.";
 
 	/** IP-Adresse oder Benutzername */
-	private BobUserIdent userIdent = new BobUserIdent();
+	private final IUserIdent userIdent;
 	
 	/** die An-/Abmeldeaktion ohne Text */
 	private LoginAction actionWithoutText = null;
@@ -46,19 +44,47 @@ public class BtLoginManager {
 	/** die An-/Abmeldeaktion mit Text */
 	private LoginAction actionWithText = null;
 	
-	private final BtMain main;
+	final BtMain main;
 	
 	public BtLoginManager(final BtMain main) {
 		this.main = main;
+		// IUserIdent instanziieren
+		final List<IUserIdent> list = Services.locateAll(IUserIdent.class);
+		if (null == list || 0 == list.size()) {
+			this.userIdent = new DemoUserIdent();
+		} else {
+			this.userIdent = list.get(0);
+		}
 	}
 	
-	private void doLogin() {
+	public IUserIdent getUserIdent() {
+		return userIdent;
+	}
+	
+	public void doLogin() {
+		final DefaultLoginPanel panel = new DefaultLoginPanel();
+		final String[] options = new String[]{"Anmelden", "Abbrechen"};
+		final ActionListener listener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(final ActionEvent evt) {
+				final String user = panel.getUser();
+				final char[] pass = panel.getPass();
+				userIdent.authenticate(user, pass);
+				final boolean authorized = userIdent.isAuthorized();
+				setupActions(!authorized);
+				LOG.info("login performed, user = " + user 
+						+ ", authorized = " + authorized);
+			}
+		};
+		main.showDialog(panel, "Benutzer anmelden", 
+				JOptionPane.QUESTION_MESSAGE, options, listener, null);
 	}
 	
 	/**
 	 * Anmeldung zurücksetzen und erfolgreiche Abmeldung anzeigen.
 	 */
-	private void doLogout() {
+	public void doLogout() {
 		authenticate(null, null);
 		setupActions(true);
 		main.showMessage(LOGOUT_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
@@ -69,6 +95,10 @@ public class BtLoginManager {
 		return userIdent.isAuthorized();
 	}
 	
+	/**
+	 * Konfiguriert Text und Icon von den Login-Schaltflächen.
+	 * @param login <code>true</code> besagt, der Benutzer kann sich anmelden
+	 */
 	private void setupActions(final boolean login) {
 		setupAction(actionWithoutText, login);
 		setupAction(actionWithText, login);
@@ -86,75 +116,48 @@ public class BtLoginManager {
 	
 	public Action getActionWithoutText() {
 		if (null == actionWithoutText) {
-			actionWithoutText = new LoginAction(false);
+			actionWithoutText = new LoginAction(main, false);
 		}
 		return actionWithoutText;
 	}
 	
 	public Action getActionWithText() {
 		if (null == actionWithText) {
-			actionWithText = new LoginAction(false);
+			actionWithText = new LoginAction(main, false);
 		}
 		return actionWithText;
 	}
 	
 	/**
-	 * Erfragt Benutzername/Kennwort und führt einen Anmeldeversuch durch.
+	 * Einfaches {@link JPanel} zur Eingabe von Benutzername und Kennwort.
+	 * 
+	 * @author maik@btmx.net
+	 *
 	 */
-	public class LoginAction extends AbstractAction {
+	public static class DefaultLoginPanel extends JPanel {
 		
-		/** <code>true</code> zeigt Beschriftung */
-		private final boolean labelVisible;
+		private final JTextField user;
 		
-		/**
-		 * Erstellt eine neue Anmeldung.
-		 * @param context die Programmumgebung
-		 * @param showText <code>true</code> zeigt Text
-		 */
-		public LoginAction(final boolean labelVisible) {
-			this.labelVisible = labelVisible;
-			if (userIdent.isAuthorized()) {
-				setupLogout();
-			} else { 
-				setupLogin();
-			}
+		private final JPasswordField pass;
+		
+		public DefaultLoginPanel() {
+			setLayout(new GridLayout(2, 2, 5, 5));
+			add(new JLabel("Benutzername:", SwingConstants.TRAILING));
+			user = new JTextField();
+			add(user);
+			add(new JLabel("Kennwort:", SwingConstants.TRAILING));
+			pass = new JPasswordField();
+			add(pass);
 		}
 
-		public boolean isLabelVisible() {
-			return labelVisible;
+		public String getUser() {
+			return user.getText();
 		}
 		
-		@Override
-		public void actionPerformed(final ActionEvent evt) {
-			if (main.isChangeMode()) {
-				main.showMessage(
-						IChangeable.CHANGEABLE_BLOCKER_TEXT, 
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			if (userIdent.isAuthorized()) {
-				doLogout();
-			} else {
-				doLogin();
-			}					
+		public char[] getPass() {
+			return pass.getPassword();
 		}
-		
-		private void setupLogin() {
-			if (labelVisible) {
-				putValue(Action.NAME, ANMELDEN_LABEL);
-			}
-			putValue(Action.SMALL_ICON, BobIcon.LOCK_OPEN);
-			putValue(Action.SHORT_DESCRIPTION, ANMELDEN_DESC);
-		}
-		
-		private void setupLogout() {
-			if (labelVisible) {
-				putValue(Action.NAME, ABMELDEN_LABEL);
-			}
-			putValue(Action.SMALL_ICON, BobIcon.LOCK);
-			putValue(Action.SHORT_DESCRIPTION, ABMELDEN_DESC);
-		}
-		
+
 	}
 
 }

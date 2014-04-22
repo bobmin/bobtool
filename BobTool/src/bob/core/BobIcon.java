@@ -12,6 +12,6 @@ public class BobIcon {
 			new ImageIcon(BobIcon.class.getResource("/icons/lock_open.png"));
 	
 	public static final Icon LOCK = 
-			new ImageIcon(BobIcon.class.getResource("/icons/lock_open.png"));
+			new ImageIcon(BobIcon.class.getResource("/icons/lock.png"));
 	
 }

@@ -1,8 +1,6 @@
 package bob.tool;
 
-import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -11,9 +9,19 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import bob.core.BobIcon;
+import bob.tool.actions.AppExit;
 
+
+/**
+ * Das Hauptmenü vom Programmfenster.
+ * 
+ * @author maik@btmx.net
+ *
+ */
 public class BtMenuBar extends JMenuBar {
+	
+	/** Beschriftung vom Werkzeugmenü */
+	private static final String TOOL_MENU_LABEL = "Werkzeugmenü";
 	
 	/** Schaltfläche zum An- und Abmelden */
 	private JButton jButtonLock;
@@ -21,7 +29,7 @@ public class BtMenuBar extends JMenuBar {
 	public BtMenuBar(final BtMain main) {
 		setupLoginButton(main.getLoginManager());
 		add(Box.createHorizontalStrut(1));
-		setupProgramMenu(main);
+		setupToolsMenu(main);
 	}
 
 	private void setupLoginButton(final BtLoginManager lm) {
@@ -32,34 +40,10 @@ public class BtMenuBar extends JMenuBar {
 		add(jButtonLock);
 	}
 	
-	private void setupProgramMenu(final BtMain main) {
-		final JMenu jMenuProgram = new JMenu("Werkzeugmenü");
-		
+	private void setupToolsMenu(final BtMain main) {
+		final JMenu jMenuProgram = new JMenu(TOOL_MENU_LABEL);
 		jMenuProgram.add(new JMenuItem(new AppExit(main)));
-		
 		add(jMenuProgram);
-	}
-	
-	/**
-	 * Aktion um Programm kontrolliert zu beenden. 
-	 */
-	public static class AppExit extends AbstractAction {
-		
-		private static final Object ACTION_NAME = "Programm beenden";
-		
-		private final BtMain main;
-		
-		public AppExit(final BtMain main) {
-			this.main = main;
-			putValue(Action.NAME, ACTION_NAME);
-			putValue(Action.SMALL_ICON, BobIcon.DOOR_OPEN);
-		}
-
-		@Override
-		public void actionPerformed(final ActionEvent arg0) {
-			main.shutdown();
-		}
-		
 	}
 	
 }

@@ -193,4 +193,30 @@ public class Utils {
 		dialog.setBounds(p.x, p.y, width, height);
 	}
 
+	/**
+     * Liefert TRUE wenn <tt>str</tt> nicht NULL ist und eine getrimmte Länger 
+     * größer 0 hat.
+     * @param str eine Zeichenkette
+     * @return TRUE wenn Zeichenkette gesetzt ist
+     */
+    public static synchronized boolean isNotEmpty(final String str) {
+		boolean result = false;
+		if (null != str) {
+			if (0 < str.trim().length()) {
+				result = true;
+			}
+		}
+		return result;
+	}
+    
+    /**
+     * Liefert TRUE wenn <tt>str</tt> NULL ist oder eine getrimmte Länger 
+     * kleiner gleich 0 hat.
+     * @param str eine Zeichenkette
+     * @return TRUE wenn Zeichenkette nicht gesetzt ist
+     */
+    public static synchronized boolean isEmpty(final String str) {
+    	return !isNotEmpty(str);
+    }
+
 }
