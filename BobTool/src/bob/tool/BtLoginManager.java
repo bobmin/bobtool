@@ -6,7 +6,9 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
 
+import bob.api.IChangeable;
 import bob.core.BobIcon;
+import bob.core.BobUserIdent;
 
 /**
  * Organisiert die Anmeldung und Abmeldung vom Programm.
@@ -14,7 +16,7 @@ import bob.core.BobIcon;
  * @author maik@btmx.net
  *
  */
-public class LoginManager {
+public class BtLoginManager {
 
 	/** Beschriftung Anmelden */
 	private static final String ANMELDEN_LABEL = "Anmelden";
@@ -36,7 +38,7 @@ public class LoginManager {
 	private static final String LOGOUT_SUCCESS = "Erfolgreich abgemeldet.";
 
 	/** IP-Adresse oder Benutzername */
-	private UserIdent userIdent = new UserIdent();
+	private BobUserIdent userIdent = new BobUserIdent();
 	
 	/** die An-/Abmeldeaktion ohne Text */
 	private LoginAction actionWithoutText = null;
@@ -44,9 +46,9 @@ public class LoginManager {
 	/** die An-/Abmeldeaktion mit Text */
 	private LoginAction actionWithText = null;
 	
-	private final Main main;
+	private final BtMain main;
 	
-	public LoginManager(final Main main) {
+	public BtLoginManager(final BtMain main) {
 		this.main = main;
 	}
 	
@@ -126,7 +128,7 @@ public class LoginManager {
 		public void actionPerformed(final ActionEvent evt) {
 			if (main.isChangeMode()) {
 				main.showMessage(
-						Changeable.CHANGEABLE_BLOCKER_TEXT, 
+						IChangeable.CHANGEABLE_BLOCKER_TEXT, 
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}

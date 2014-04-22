@@ -1,4 +1,4 @@
-package bob.tool;
+package bob.api;
 
 /**
  * Beschreibt ein Werkzeug, das nur über die Speicherung der Daten bzw. die 
@@ -7,7 +7,7 @@ package bob.tool;
  * @author maik.boettcher@bur-kg.de
  *
  */
-public interface Changeable {
+public interface IChangeable {
 	
 	/** Meldung wenn Bearbeitungsmodus Aktion verhindert */
 	String CHANGEABLE_BLOCKER_TEXT = 

@@ -1,4 +1,4 @@
-package bob.tool;
+package bob.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +9,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import bob.core.BobConstants;
-import bob.core.Utils;
 
 /**
  * Protokolliert unerwartete Programmabstürze.

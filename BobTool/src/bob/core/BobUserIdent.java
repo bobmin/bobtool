@@ -1,8 +1,8 @@
-package bob.tool;
+package bob.core;
 
-public class UserIdent {
+public class BobUserIdent {
 	
-	public UserIdent() {
+	public BobUserIdent() {
 		// TODO Auto-generated constructor stub
 	}
 

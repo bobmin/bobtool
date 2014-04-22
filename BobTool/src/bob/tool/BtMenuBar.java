@@ -13,18 +13,18 @@ import javax.swing.JMenuItem;
 
 import bob.core.BobIcon;
 
-public class BobMenuBar extends JMenuBar {
+public class BtMenuBar extends JMenuBar {
 	
 	/** Schaltfläche zum An- und Abmelden */
 	private JButton jButtonLock;
 	
-	public BobMenuBar(final Main main) {
+	public BtMenuBar(final BtMain main) {
 		setupLoginButton(main.getLoginManager());
 		add(Box.createHorizontalStrut(1));
 		setupProgramMenu(main);
 	}
 
-	private void setupLoginButton(final LoginManager lm) {
+	private void setupLoginButton(final BtLoginManager lm) {
 		final Action aaa = lm.getActionWithoutText();
 		jButtonLock = new JButton(aaa);
 		jButtonLock.setContentAreaFilled(false);
@@ -32,7 +32,7 @@ public class BobMenuBar extends JMenuBar {
 		add(jButtonLock);
 	}
 	
-	private void setupProgramMenu(final Main main) {
+	private void setupProgramMenu(final BtMain main) {
 		final JMenu jMenuProgram = new JMenu("Werkzeugmenü");
 		
 		jMenuProgram.add(new JMenuItem(new AppExit(main)));
@@ -47,9 +47,9 @@ public class BobMenuBar extends JMenuBar {
 		
 		private static final Object ACTION_NAME = "Programm beenden";
 		
-		private final Main main;
+		private final BtMain main;
 		
-		public AppExit(final Main main) {
+		public AppExit(final BtMain main) {
 			this.main = main;
 			putValue(Action.NAME, ACTION_NAME);
 			putValue(Action.SMALL_ICON, BobIcon.DOOR_OPEN);

@@ -12,10 +12,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import bob.core.BobConstants;
+import bob.core.BobCrashHandler;
 import bob.core.Config;
 import bob.core.Utils;
 
-public class Main extends JFrame {
+public class BtMain extends JFrame {
 	
 	/** die Build-Nummer aus <tt>/src/resources/burtool.build</tt> */
 	public static String BUILD_NUMBER = null;
@@ -32,9 +33,9 @@ public class Main extends JFrame {
 	/** <code>true</code> wenn Demomodus eingeschaltet */
 	private boolean demoActivated = false;
 	
-	private final LoginManager lm;
+	private final BtLoginManager lm;
 	
-	private final PluginManager pm;
+	private final BtPluginManager pm;
 	
 	private final String programName;
 	
@@ -47,20 +48,20 @@ public class Main extends JFrame {
 			@Override
 			public void run() {
 				Utils.setupNimbus();
-				new Main(title);
+				new BtMain(title);
 			}
 		});
 	}
 	
-	public Main(final String programName) {
+	public BtMain(final String programName) {
 		this.programName = programName;
 		// Icon für Anwendung
 		final ImageIcon icon = 
-				new ImageIcon(Main.class.getResource(PROGRAM_IMAGE));
+				new ImageIcon(BtMain.class.getResource(PROGRAM_IMAGE));
 		setIconImage(icon.getImage());
 		// Manager starten
-		lm = new LoginManager(this);
-		pm = new PluginManager();
+		lm = new BtLoginManager(this);
+		pm = new BtPluginManager();
 		// Oberfläche anzeigen
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setupTitle();
@@ -71,16 +72,16 @@ public class Main extends JFrame {
 				shutdown();
 			}			
 		});
-		setJMenuBar(new BobMenuBar(this));
+		setJMenuBar(new BtMenuBar(this));
 		setupSize();
 		setVisible(true);
 	}
 	
-	public LoginManager getLoginManager() {
+	public BtLoginManager getLoginManager() {
 		return lm;
 	}
 	
-	public PluginManager getPluginManager() {
+	public BtPluginManager getPluginManager() {
 		return pm;
 	}
 	
