@@ -16,8 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import bob.api.IUserIdent;
+import bob.core.BobException;
 import bob.core.Services;
-import bob.demo.DemoUserIdent;
 import bob.tool.actions.LoginAction;
 
 /**
@@ -46,12 +46,12 @@ public class BtLoginManager {
 	
 	final BtMain main;
 	
-	public BtLoginManager(final BtMain main) {
+	public BtLoginManager(final BtMain main) throws BobException {
 		this.main = main;
 		// IUserIdent instanziieren
 		final List<IUserIdent> list = Services.locateAll(IUserIdent.class);
 		if (null == list || 0 == list.size()) {
-			this.userIdent = new DemoUserIdent();
+			throw new BobException.SettingsUnreachabl(IUserIdent.class);
 		} else {
 			this.userIdent = list.get(0);
 		}

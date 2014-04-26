@@ -13,10 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import bob.api.IToolSettings;
 import bob.api.IValidation;
 import bob.core.BobConstants;
 import bob.core.BobCrashHandler;
+import bob.core.BobException;
 import bob.core.Config;
+import bob.core.Services;
 import bob.core.Utils;
 
 public class BtMain extends JFrame {
@@ -36,28 +39,38 @@ public class BtMain extends JFrame {
 	/** <code>true</code> wenn Demomodus eingeschaltet */
 	private boolean demoActivated = false;
 	
+	private final IToolSettings settings;
+	
 	private final BtLoginManager lm;
 	
 	private final BtPluginManager pm;
 	
-	private final String programName;
-	
-	public static void startApp(final String title) {
+	public static void main(final String[] args) throws BobException {
+		// Einstellungen suchen/holen
+		final IToolSettings settings = Services.locate(IToolSettings.class);
+		if (null == settings) {
+			throw new BobException.SettingsUnreachabl(IToolSettings.class);
+		}
 		// Ausnahemfehler protokollieren
-		final BobCrashHandler handler = new BobCrashHandler(title);
+		final BobCrashHandler handler = 
+				new BobCrashHandler(settings.getToolTitle());
 		Thread.setDefaultUncaughtExceptionHandler(handler);
 		// Oberfläche starten
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				Utils.setupNimbus();
-				new BtMain(title);
+				try {
+					new BtMain(settings);
+				} catch (BobException ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 	}
 	
-	public BtMain(final String programName) {
-		this.programName = programName;
+	public BtMain(final IToolSettings settings) throws BobException {
+		this.settings = settings;
 		// Icon für Anwendung
 		final ImageIcon icon = 
 				new ImageIcon(BtMain.class.getResource(PROGRAM_IMAGE));
@@ -102,7 +115,7 @@ public class BtMain extends JFrame {
 	}
 
 	public void setupTitle() {
-		final StringBuffer sb = new StringBuffer(programName);
+		final StringBuffer sb = new StringBuffer(settings.getToolTitle());
 		if (demoActivated) {
 			sb.append(BobConstants.SPACE).append("[DEMO]");
 		}
