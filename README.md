@@ -15,10 +15,12 @@ An application for distributed tools.
 
 The default implementation for the BobTool.
 
+* bob.demo.DemoToolSettings
 * bob.demo.DemoUserIdent (user/pass no matter)
 
 # BbmcTool
 
 An example application for the BobTool.
 
+* bob.bbmc.BbmcToolSettings
 * bob.bbmc.BbmcUserIdent (user equal pass)
