@@ -13,5 +13,17 @@ public interface IToolSettings {
 	 * @return eine Zeichenkette, niemals <code>null</code>
 	 */
 	String getToolTitle();
+	
+	/**
+	 * Liefert den vollständigen Klassennamen vom Standardwerkzeug. 
+	 * @return eine Zeichenkette, niemals <code>null</code>
+	 */
+	String getDefaultPlugin();
+
+	/**
+	 * Liefert den Pfad zum Programmsymbol.
+	 * @return eine Zeichenkette, niemals <code>null</code>
+	 */
+	String getProgramIcon();
 
 }

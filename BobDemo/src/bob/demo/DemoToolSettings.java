@@ -12,4 +12,14 @@ public class DemoToolSettings implements IToolSettings {
 		return TOOL_TITLE;
 	}
 
+	@Override
+	public String getDefaultPlugin() {
+		return "bob.finance.FinancePlugin";
+	}
+
+	@Override
+	public String getProgramIcon() {
+		return "/resources/gnome-control-center32.png";
+	}
+
 }

@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 import bob.api.IChangeable;
 import bob.core.BobIcon;
-import bob.tool.BtMain;
+import bob.tool.AbstractApplication;
 
 /**
  * Erfragt Benutzername und Kennwort und führt einen Anmeldeversuch durch. Ist 
@@ -36,7 +36,7 @@ public class LoginAction extends AbstractAction {
 			"Funktionen deaktivieren.";
 
 	/** das Programm */
-	private final BtMain main;
+	private final AbstractApplication app;
 	
 	/** <code>true</code> zeigt Beschriftung */
 	private final boolean labelVisible;
@@ -47,10 +47,10 @@ public class LoginAction extends AbstractAction {
 	 * @param context die Programmumgebung
 	 * @param showText <code>true</code> zeigt Text
 	 */
-	public LoginAction(final BtMain main, final boolean labelVisible) {
-		this.main = main;
+	public LoginAction(final AbstractApplication app, final boolean labelVisible) {
+		this.app = app;
 		this.labelVisible = labelVisible;
-		if (main.isAuthorized()) {
+		if (app.getLoginManager().getUserIdent().isAuthorized()) {
 			setupLogout();
 		} else { 
 			setupLogin();
@@ -63,13 +63,13 @@ public class LoginAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(final ActionEvent evt) {
-		if (main.isChangeMode()) {
-			main.showMessage(
+		if (app.isChangeMode()) {
+			app.showMessage(
 					IChangeable.CHANGEABLE_BLOCKER_TEXT, 
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		main.doAuth();
+		app.getLoginManager().doAuth();
 	}
 	
 	public void setupLogin() {

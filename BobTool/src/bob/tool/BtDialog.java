@@ -33,10 +33,10 @@ public class BtDialog {
 
 	private static final String OKAY_BUTTON_NAME = "jButtonOkay";
 	
-	public static void show(final BtMain main, final JPanel panel, 
+	public static void show(final AbstractApplication main, final JPanel panel, 
 			final String title, final int type, final String[] options,
 			final ActionListener listener, final IValidation validation) {
-		final JDialog dialog = new JDialog(main, title, true);
+		final JDialog dialog = new JDialog(main.getFrame(), title, true);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		final JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -107,9 +107,9 @@ public class BtDialog {
 		/** eine optionale Datenprüfung */
 		private final IValidation validation;
 		
-		private final BtMain main;
+		private final AbstractApplication main;
 		
-		public ActionListenerProxy(final BtMain main, final JDialog dialog, 
+		public ActionListenerProxy(final AbstractApplication main, final JDialog dialog, 
 				final ActionListener childActionListener, 
 				final IValidation validation) {
 			this.main = main;

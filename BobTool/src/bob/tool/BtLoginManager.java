@@ -4,7 +4,6 @@ package bob.tool;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.Action;
@@ -16,8 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import bob.api.IUserIdent;
-import bob.core.BobException;
-import bob.core.Services;
+import bob.core.CrashException;
+import bob.core.ServiceUtils;
 import bob.tool.actions.LoginAction;
 
 /**
@@ -34,6 +33,9 @@ public class BtLoginManager {
 
 	/** Meldung wenn erfolgreich abgemeldet */
 	private static final String LOGOUT_SUCCESS = "Erfolgreich abgemeldet.";
+	
+	/** das Programm */
+	private final AbstractApplication app;
 
 	/** IP-Adresse oder Benutzername */
 	private final IUserIdent userIdent;
@@ -44,16 +46,12 @@ public class BtLoginManager {
 	/** die An-/Abmeldeaktion mit Text */
 	private LoginAction actionWithText = null;
 	
-	final BtMain main;
-	
-	public BtLoginManager(final BtMain main) throws BobException {
-		this.main = main;
+	public BtLoginManager(final AbstractApplication app) {
+		this.app = app;
 		// IUserIdent instanziieren
-		final List<IUserIdent> list = Services.locateAll(IUserIdent.class);
-		if (null == list || 0 == list.size()) {
-			throw new BobException.SettingsUnreachabl(IUserIdent.class);
-		} else {
-			this.userIdent = list.get(0);
+		userIdent = ServiceUtils.locate(IUserIdent.class);
+		if (null == userIdent) {
+			throw new CrashException.ServiceUnreachable(IUserIdent.class);
 		}
 	}
 	
@@ -77,7 +75,7 @@ public class BtLoginManager {
 						+ ", authorized = " + authorized);
 			}
 		};
-		main.showDialog(panel, "Benutzer anmelden", 
+		app.showDialog(panel, "Benutzer anmelden", 
 				JOptionPane.QUESTION_MESSAGE, options, listener, null);
 	}
 	
@@ -87,7 +85,7 @@ public class BtLoginManager {
 	public void doLogout() {
 		authenticate(null, null);
 		setupActions(true);
-		main.showMessage(LOGOUT_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
+		app.showMessage(LOGOUT_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public boolean authenticate(final String user, final char[] pass) {
@@ -116,14 +114,14 @@ public class BtLoginManager {
 	
 	public Action getActionWithoutText() {
 		if (null == actionWithoutText) {
-			actionWithoutText = new LoginAction(main, false);
+			actionWithoutText = new LoginAction(app, false);
 		}
 		return actionWithoutText;
 	}
 	
 	public Action getActionWithText() {
 		if (null == actionWithText) {
-			actionWithText = new LoginAction(main, false);
+			actionWithText = new LoginAction(app, false);
 		}
 		return actionWithText;
 	}
@@ -158,6 +156,18 @@ public class BtLoginManager {
 			return pass.getPassword();
 		}
 
+	}
+
+	/**
+	 * Führt eine Anmeldung aus oder meldet einen zuvor erfolgreich angemeldeten
+	 * Benutzer vom System wieder ab.
+	 */
+	public void doAuth() {
+		if (userIdent.isAuthorized()) {
+			doLogout();
+		} else {
+			doLogin();
+		}
 	}
 
 }

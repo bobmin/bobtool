@@ -12,14 +12,4 @@ public class BobException extends Exception {
 		super(message);
 	}
 	
-	public static class SettingsUnreachabl extends BobException {
-		
-		private static final String MESSAGE_FORMAT = "SETTINGS UNREACHABLE: %s";
-		
-		public SettingsUnreachabl(final Class<?> type) {
-			super(String.format(MESSAGE_FORMAT, type.getName()));
-		}
-		
-	}
-
 }

@@ -4,12 +4,20 @@ import bob.api.IToolSettings;
 
 public class BbmcToolSettings implements IToolSettings {
 
-	/** eindeutiger Programmtitel */
-	private static final String TOOL_TITLE = "BbmcTool v0.9";
-	
 	@Override
 	public String getToolTitle() {
-		return TOOL_TITLE;
+		return "BbmcTool v0.9";
+	}
+
+	@Override
+	public String getDefaultPlugin() {
+		// TODO Standardwerkzeug einbinden
+		return null;
+	}
+
+	@Override
+	public String getProgramIcon() {
+		return "/resources/gnome-control-center32.png";
 	}
 
 }
