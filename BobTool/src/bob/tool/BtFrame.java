@@ -52,8 +52,8 @@ import bob.core.Utils;
 import bob.tool.actions.AppExit;
 
 /**
- * Die Ein-Fenster-Benutzeroberfläche mit Werkzeug- und Aufgabenmenu sowie den 
- * Steuerelementen für die Programmhistorie.
+ * Die Ein-Fenster-Benutzeroberflï¿½che mit Werkzeug- und Aufgabenmenu sowie den
+ * Steuerelementen fï¿½r die Programmhistorie.
  * 
  * @author maik.boettcher@bur-kg.de
  *
@@ -62,53 +62,51 @@ public class BtFrame extends JFrame {
 
 	/** das Programm */
 	private final AbstractApplication app;
-	
-	/** Schlüssel für Programmfensterbreite */
+
+	/** Schlï¿½ssel fï¿½r Programmfensterbreite */
 	public static final String CONFIG_WIDTH_KEY = "bobTool.width";
 
-	/** Schlüssel für Programmfensterhöhe */
+	/** Schlï¿½ssel fï¿½r Programmfensterhï¿½he */
 	public static final String CONFIG_HEIGHT_KEY = "bobTool.height";
-	
-	/** Signalfarbe für Bearbeitungsmodus und schwere Ausnahmefehler */
+
+	/** Signalfarbe fï¿½r Bearbeitungsmodus und schwere Ausnahmefehler */
 	private static final Color WARNING_COLOR = new Color(255, 138, 0);
 
-	/** ein Panel für die TopComponent */
+	/** ein Panel fï¿½r die TopComponent */
 	private final JPanel contentPane = new JPanel(new BorderLayout(0, 0));
 
-	/** aktuelle Werkzeugoberfläche */
+	/** aktuelle Werkzeugoberflï¿½che */
 	private JPanel topComponent = null;
 
-	/** ein {@link KeyStroke} für <tt>ALT+S</tt> */
-	private final KeyStroke keyStrgS = 
-			KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
-	
-	/** Konstante für {@link InputMap} und {@link ActionMap} */
+	/** ein {@link KeyStroke} fï¿½r <tt>ALT+S</tt> */
+	private final KeyStroke keyStrgS = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+
+	/** Konstante fï¿½r {@link InputMap} und {@link ActionMap} */
 	private static final String BEARBEITUNG_SPEICHERN = "bearbeitung.speichern";
 
-	/** Tastenkürzel <tt>ESC</tt> zum Schließen */
+	/** Tastenkï¿½rzel <tt>ESC</tt> zum Schlieï¿½en */
 	private static final KeyStroke KEY_ESC = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-	
-	/** Konstante für {@link InputMap} und {@link ActionMap} */
+
+	/** Konstante fï¿½r {@link InputMap} und {@link ActionMap} */
 	private static final String BEARBEITUNG_ABBRECHEN = "bearbeitung.abbrechen";
-		
+
 	/** die aktuell sichtbaren Aufgaben */
 	private final Set<IAction> currentActions = new LinkedHashSet<IAction>();
-	
-	private JPanel infoPanel = null; 
-	
+
+	private JPanel infoPanel = null;
+
 	private final GlassPane glassPane;
-		
+
 	/** <code>true</code> wenn schwerer Ausnahemfehler angezeigt wird */
 	private boolean exceptionMode = false;
-	
+
 	public BtFrame(final AbstractApplication app) {
 		this.app = app;
-		// Icon für Anwendung
+		// Icon fï¿½r Anwendung
 		final String iconPath = app.getSettings().getProgramIcon();
-		final ImageIcon icon = 
-				new ImageIcon(BtFrame.class.getResource(iconPath));
+		final ImageIcon icon = new ImageIcon(BtFrame.class.getResource(iconPath));
 		setIconImage(icon.getImage());
-		// Oberfläche konfigurieren
+		// Oberflï¿½che konfigurieren
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setupTitle();
 		addWindowListener(new WindowAdapter() {
@@ -116,30 +114,30 @@ public class BtFrame extends JFrame {
 			@Override
 			public void windowClosing(final WindowEvent e) {
 				app.shutdown();
-			}			
+			}
 		});
 		setupMenubar();
 		setupSize();
 		glassPane = new GlassPane();
 	}
-	
+
 	private void setupMenubar() {
-		
+
 		final JMenuBar x = new JMenuBar();
-		
+
 		final Action aaa = app.getLoginManager().getActionWithoutText();
 		final JButton jButtonLock = new JButton(aaa);
 		jButtonLock.setContentAreaFilled(false);
 		jButtonLock.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		x.add(jButtonLock);
-		
+
 		x.add(Box.createHorizontalStrut(1));
 
-		final JMenu jMenuProgram = new JMenu("Werkzeugmenü");
+		final JMenu jMenuProgram = new JMenu("WerkzeugmenÃ¼");
 		// Werkzeuge auflisten
 		final BtPluginManager bpm = app.getPluginManager();
 		final Iterator<IPlugin> plugins = bpm.pluginList.iterator();
-		while(plugins.hasNext()) {
+		while (plugins.hasNext()) {
 			final IPlugin p = plugins.next();
 			final Action a = bpm.getPluginAction(p);
 			final JMenuItem item = new JMenuItem(a);
@@ -150,16 +148,14 @@ public class BtFrame extends JFrame {
 		jMenuProgram.add(new JMenuItem(new AppExit(app)));
 		x.add(jMenuProgram);
 
-		
 		setJMenuBar(x);
-		
-		
-//		setJMenuBar(new BtMenuBar(app));
+
+		// setJMenuBar(new BtMenuBar(app));
 	}
 
 	public void setupSize() {
 		final Config cfg = Config.getDefault();
-		// Breite und Höhe holen
+		// Breite und Hï¿½he holen
 		Integer w = cfg.getInteger(CONFIG_WIDTH_KEY);
 		w = ((null == w) || (640 > w) ? 640 : w);
 		Integer h = cfg.getInteger(CONFIG_HEIGHT_KEY);
@@ -171,7 +167,7 @@ public class BtFrame extends JFrame {
 		// Fenster positionieren
 		Utils.centerOnScreen(this, w, h);
 	}
-	
+
 	public void setupTitle() {
 		final String title = app.getSettings().getToolTitle();
 		final StringBuffer sb = new StringBuffer(title);
@@ -181,7 +177,7 @@ public class BtFrame extends JFrame {
 		if (null != AbstractApplication.BUILD_NUMBER) {
 			sb.append(BobConstants.SPACE).append(BobConstants.MINUS);
 			sb.append(BobConstants.SPACE).append("Build");
-			sb.append(BobConstants.SPACE).append(AbstractApplication.BUILD_NUMBER); 
+			sb.append(BobConstants.SPACE).append(AbstractApplication.BUILD_NUMBER);
 		}
 		setTitle(sb.toString());
 	}
@@ -191,7 +187,7 @@ public class BtFrame extends JFrame {
 			contentPane.remove(topComponent);
 		}
 		if (null != tc) {
-			// Größe
+			// Grï¿½ï¿½e
 			tc.setMaximumSize(new Dimension(950, Integer.MAX_VALUE));
 			tc.setPreferredSize(new Dimension(800, Integer.MAX_VALUE));
 			// Bearbeitungsmodus
@@ -215,35 +211,33 @@ public class BtFrame extends JFrame {
 			topComponent = tc;
 		}
 	}
-	
+
 	private class ChangeModeAction extends AbstractAction {
 
 		private final String cmd;
-		
+
 		public ChangeModeAction(final String cmd) {
 			this.cmd = cmd;
 		}
-		
+
 		@Override
 		public void actionPerformed(final ActionEvent evt) {
 			if (app.isChangeMode()) {
 				switchChangeMode(cmd);
 			}
 		}
-		
+
 	}
-	
+
 	public void switchChangeMode(final String cmd) {
 		boolean success = false;
 		if (BEARBEITUNG_SPEICHERN.equals(cmd)) {
 			success = app.dataSave();
 		} else if (BEARBEITUNG_ABBRECHEN.equals(cmd)) {
-			final int a = JOptionPane.showConfirmDialog(this, 
-					"Die Änderungen werden rückgängig gemacht.\n" +
-					"Der letzte gespeicherte Stand wird wieder hergestellt.\n" +
-					"Wirklich fortfahren?", app.getSettings().getToolTitle(), 
-					JOptionPane.YES_NO_OPTION, 
-					JOptionPane.WARNING_MESSAGE);
+			final int a = JOptionPane.showConfirmDialog(this,
+					"Die ï¿½nderungen werden rï¿½ckgï¿½ngig gemacht.\n"
+							+ "Der letzte gespeicherte Stand wird wieder hergestellt.\n" + "Wirklich fortfahren?",
+					app.getSettings().getToolTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if (a == JOptionPane.YES_OPTION) {
 				success = app.dataReset();
 			}
@@ -251,20 +245,22 @@ public class BtFrame extends JFrame {
 			throw new IllegalStateException("command unknown: " + cmd);
 		}
 		if (success) {
-			setChangeMode(false);					
+			setChangeMode(false);
 		}
 	}
-	
+
 	/**
 	 * Schaltet die Anzeige "Bearbeitungsmodus" ein und aus.
-	 * @param b <code>true</code> schaltet Bearbeitungsmodus ein
+	 * 
+	 * @param b
+	 *            <code>true</code> schaltet Bearbeitungsmodus ein
 	 */
 	public void setChangeMode(final boolean b) {
 		if (b) {
 			infoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 3, 0));
 			infoPanel.add(createInfoLabel("Bearbeitungsmodus"));
 			infoPanel.add(createInfoButton("abbrechen"));
-			infoPanel.add(createInfoLabel("oder Änderungen"));
+			infoPanel.add(createInfoLabel("oder ï¿½nderungen"));
 			infoPanel.add(createInfoButton("speichern"));
 			infoPanel.add(createInfoLabel("!"));
 			infoPanel.setBackground(WARNING_COLOR);
@@ -277,21 +273,21 @@ public class BtFrame extends JFrame {
 			infoPanel = null;
 		}
 		// Historie an/aus
-		//    TODO Historie implementieren
-//		getTracker().setEnabled(!b);
+		// TODO Historie implementieren
+		// getTracker().setEnabled(!b);
 		// Aktions an/aus
 		actionsOnOff(b);
 		// Keybinding an/aus
 		keybindingOnOff(b);
 	}
-		
+
 	private JLabel createInfoLabel(final String text) {
 		final JLabel jLabel = new JLabel(text);
 		jLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 2, 0));
 		jLabel.setForeground(Color.WHITE);
 		return jLabel;
 	}
-	
+
 	private JLabel createInfoButton(final String text) {
 		final JLabel jLabel = new JLabel(text);
 		jLabel.setName(text);
@@ -301,13 +297,15 @@ public class BtFrame extends JFrame {
 		jLabel.addMouseListener(new ChangeModeMouseAdapter());
 		return jLabel;
 	}
-	
+
 	/**
-	 * Schaltet die Aktion abhängig vom Bearbeitungsmodus an oder aus.
-	 * @param changeMode <code>true</code> wenn der Bearbeitungsmodus an ist
+	 * Schaltet die Aktion abhï¿½ngig vom Bearbeitungsmodus an oder aus.
+	 * 
+	 * @param changeMode
+	 *            <code>true</code> wenn der Bearbeitungsmodus an ist
 	 */
 	private void actionsOnOff(final boolean changeMode) {
-		for (final IAction a: currentActions) {
+		for (final IAction a : currentActions) {
 			final int visibility = a.getVisibility();
 			final boolean enabled;
 			if (0 < (visibility & IAction.EDIT_MODE_BOTH)) {
@@ -322,24 +320,24 @@ public class BtFrame extends JFrame {
 			a.getAction().setEnabled(enabled);
 		}
 	}
-	
+
 	private void keybindingOnOff(final boolean changeMode) {
 	}
 
 	/**
-	 * Verbindet über {@link MouseAdapter#mouseClicked(MouseEvent)} eine 
-	 * {@link MouseEvent} sendende Komponente der Benutzeroberfläche mit der 
-	 * Möglichkeit den Bearbeitungsmodus zu beenden.
+	 * Verbindet ï¿½ber {@link MouseAdapter#mouseClicked(MouseEvent)} eine
+	 * {@link MouseEvent} sendende Komponente der Benutzeroberflï¿½che mit der
+	 * Mï¿½glichkeit den Bearbeitungsmodus zu beenden.
 	 */
 	private class ChangeModeMouseAdapter extends MouseAdapter {
-		
+
 		@Override
 		public void mouseClicked(final MouseEvent e) {
 			final String cmd = e.getComponent().getName();
 			assert cmd != null;
 			switchChangeMode(cmd);
 		}
-		
+
 	}
 
 	public void setActions(final Set<IAction> actions) {
@@ -350,13 +348,15 @@ public class BtFrame extends JFrame {
 	/**
 	 * Benennt eine Hilfeseite zum aktuellen Werkzeug. Wird <code>null</code>
 	 * gesetzt, ist keine Hilfeseite zum Werkzeug bekannt.
-	 * @param url eine Adresse
+	 * 
+	 * @param url
+	 *            eine Adresse
 	 */
 	public void setHelpUrl(final String url) {
 		if (Utils.isEmpty(url)) {
-			
+
 		} else {
-			
+
 		}
 	}
 
@@ -365,16 +365,12 @@ public class BtFrame extends JFrame {
 		glassPane.switchExceptionMode(true);
 		glassPane.setVisible(true);
 	}
-	
+
 	public void stopException() {
-		final int a = JOptionPane.showOptionDialog(this, 
-				"Die Anwendung ist instabil und sollte nur " +
-				"zur Fehleranlyse weiter betrieben werden.", 
-				"Schwerer Ausnahmefehler", 
-				JOptionPane.YES_NO_OPTION, 
-				JOptionPane.WARNING_MESSAGE, null, 
-				new String[]{"Programm beenden", "Fortsetzen"}, 
-				JOptionPane.YES_OPTION);
+		final int a = JOptionPane.showOptionDialog(this,
+				"Die Anwendung ist instabil und sollte nur " + "zur Fehleranlyse weiter betrieben werden.",
+				"Schwerer Ausnahmefehler", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
+				new String[] { "Programm beenden", "Fortsetzen" }, JOptionPane.YES_OPTION);
 		if (JOptionPane.YES_OPTION == a) {
 			System.exit(0);
 		} else {
@@ -383,22 +379,25 @@ public class BtFrame extends JFrame {
 			glassPane.setVisible(false);
 		}
 	}
-	
+
 	/**
 	 * Eine "Scheibe" vor dem Anwendungsfenster, um dieses komplett zu sperren.
-	 * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/rootpane.html">How to Use Root Panes</a>
+	 * 
+	 * @see <a href=
+	 *      "http://docs.oracle.com/javase/tutorial/uiswing/components/rootpane.html">
+	 *      How to Use Root Panes</a>
 	 */
 	public class GlassPane extends JPanel {
-		
+
 		private final JLabel jLabel;
 		private final JLabel jLabelInfo;
 		private final JButton jButton;
-		
+
 		public GlassPane() {
 			super(new GridBagLayout());
 			setOpaque(false);
-            setBackground(new Color(75, 75, 75, 100));
-            addMouseListener(new MouseAdapter() {
+			setBackground(new Color(75, 75, 75, 100));
+			addMouseListener(new MouseAdapter() {
 
 				@Override
 				public void mouseClicked(final MouseEvent e) {
@@ -406,13 +405,13 @@ public class BtFrame extends JFrame {
 				}
 			});
 			setFocusTraversalKeysEnabled(false);
-			
+
 			final GridBagConstraints gbc = new GridBagConstraints();
 			// Label mit Ups
 			gbc.gridx = 0;
 			gbc.gridy = 0;
 			gbc.insets = new Insets(5, 5, 30, 5);
-			jLabel = new JLabel("Ups, das hätte nicht passieren dürfen...");
+			jLabel = new JLabel("Ups, das hï¿½tte nicht passieren dï¿½rfen...");
 			jLabel.setFont(jLabel.getFont().deriveFont(Font.BOLD, 24.0f));
 			jLabel.setForeground(WARNING_COLOR);
 			add(jLabel, gbc);
@@ -423,30 +422,30 @@ public class BtFrame extends JFrame {
 			jLabelInfo = new JLabel();
 			add(jLabelInfo, gbc);
 			// Button
-			jButton = new JButton("Fehlermeldung schließen");
+			jButton = new JButton("Fehlermeldung schlieï¿½en");
 			gbc.gridx = 0;
 			gbc.gridy = 2;
 			gbc.insets = new Insets(30, 5, 5, 5);
 			jButton.addActionListener(new ActionListener() {
-				
+
 				@Override
-				public void actionPerformed(final ActionEvent e) {					
+				public void actionPerformed(final ActionEvent e) {
 					stopException();
 				}
 			});
 			add(jButton, gbc);
-			
+
 			switchExceptionMode(false);
-			
+
 		}
-		
+
 		@Override
-        protected void paintComponent(final Graphics g) {
+		protected void paintComponent(final Graphics g) {
 			super.paintComponent(g);
-            g.setColor(getBackground());
-            g.fillRect(0, 0, getSize().width, getSize().height);
-        }
-		
+			g.setColor(getBackground());
+			g.fillRect(0, 0, getSize().width, getSize().height);
+		}
+
 		private void switchExceptionMode(final boolean b) {
 			exceptionMode = b;
 			jLabel.setVisible(b);
@@ -455,7 +454,7 @@ public class BtFrame extends JFrame {
 			jButton.setVisible(b);
 			revalidate();
 		}
-		
+
 	}
 
 }
