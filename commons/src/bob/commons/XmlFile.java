@@ -48,7 +48,7 @@ public class XmlFile {
 	private final String path;
 
 	/**
-	 * Geschützter Konstruktor. Statische Methoden zur Instanziierung
+	 * GeschÃ¼tzter Konstruktor. Statische Methoden zur Instanziierung
 	 * vorgesehen.
 	 */
 	private XmlFile(final String path) {
@@ -67,10 +67,10 @@ public class XmlFile {
 	}
 
 	/**
-	 * Liefert den Wert zum eindeutigen Schlüssel.
+	 * Liefert den Wert zum eindeutigen SchlÃ¼ssel.
 	 * 
 	 * @param id
-	 *            der Schlüssel
+	 *            der SchlÃ¼ssel
 	 * @return ein Objekt oder <code>null</code>
 	 */
 	public XmlValue getValue(final String id) {
@@ -93,35 +93,35 @@ public class XmlFile {
 	}
 
 	/**
-	 * Verarbeitet die Einträge der XML-Datei und findet - falls vorhanden - den
+	 * Verarbeitet die EintrÃ¤ge der XML-Datei und findet - falls vorhanden - den
 	 * gesuchten Eintrag.
 	 */
 	private class Handler extends DefaultHandler {
 
-		/** der Schlüssel wird gesucht */
+		/** der SchlÃ¼ssel wird gesucht */
 		private final String search;
 
 		/** die optionale Beschreibung */
 		private String desc = null;
 
-		/** der Wert zum Schlüssel */
+		/** der Wert zum SchlÃ¼ssel */
 		private CharArrayWriter contents = null;
 
 		/** die Abbruchbedingung */
 		private boolean finish = false;
 
 		/**
-		 * Instanziiert das Objekt mit dem Schlüssel, der gesucht werden soll.
+		 * Instanziiert das Objekt mit dem SchlÃ¼ssel, der gesucht werden soll.
 		 * 
 		 * @param id
-		 *            der Schlüssel wird gesucht
+		 *            der SchlÃ¼ssel wird gesucht
 		 */
 		public Handler(final String id) {
 			this.search = id;
 		}
 
 		/**
-		 * Liefert einen Wert (ein Objekt), wenn der Schküssel in der XML-Datei
+		 * Liefert einen Wert (ein Objekt), wenn der SchlÃ¼ssel in der XML-Datei
 		 * gefunden wurde.
 		 * 
 		 * @return ein Objekt oder <code>null</code>
@@ -174,10 +174,10 @@ public class XmlFile {
 	 */
 	public class XmlValue {
 
-		/** der Schlüssel */
+		/** der SchlÃ¼ssel */
 		private final String id;
 
-		/** der Wert zum Schlüssel */
+		/** der Wert zum SchlÃ¼ssel */
 		private final String content;
 
 		/** die optionale Beschreibung */
@@ -187,9 +187,9 @@ public class XmlFile {
 		 * Instanziiert das Objekt.
 		 * 
 		 * @param id
-		 *            der Schlüssel
+		 *            der SchlÃ¼ssel
 		 * @param content
-		 *            der Wert zum Schlüssel
+		 *            der Wert zum SchlÃ¼ssel
 		 * @param desc
 		 *            die optionale Beschreibung
 		 */
@@ -202,7 +202,7 @@ public class XmlFile {
 		}
 
 		/**
-		 * Liefert den Schlüssel.
+		 * Liefert den SchlÃ¼ssel.
 		 * 
 		 * @return eine Zeichenkette, niemals <code>null</code>
 		 */
@@ -211,7 +211,7 @@ public class XmlFile {
 		}
 
 		/**
-		 * Liefert den Wert zum Schlüssel.
+		 * Liefert den Wert zum SchlÃ¼ssel.
 		 * 
 		 * @return eine Zeichenkette oder <code>null</code>
 		 */

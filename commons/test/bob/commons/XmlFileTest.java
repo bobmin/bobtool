@@ -8,14 +8,14 @@ import org.junit.Test;
 import bob.commons.XmlFile.XmlValue;
 
 /**
- * Prüft die Klasse {@link XmlFile}.
+ * PrÃ¼ft die Klasse {@link XmlFile}.
  * 
  * @author maik@btmx.net
  *
  */
 public class XmlFileTest {
 
-	/** Konstante für Schlüssel */
+	/** Konstante fï¿½r Schlï¿½ssel */
 	private static final String KEY = "junit.1";
 
 	@Test
@@ -23,7 +23,7 @@ public class XmlFileTest {
 		final XmlFile x = XmlFile.createResource("/resources/demoxmlfile.xml");
 		Assert.assertNotNull("Ressource nicht vorhanden?", x);
 		final XmlValue value = x.getValue(KEY);
-		Assert.assertNotNull("Schlüssel unbekannt?", value);
+		Assert.assertNotNull("Schlï¿½ssel unbekannt?", value);
 		Assert.assertEquals(KEY, value.getId());
 		Assert.assertEquals("erste Zeile und zweite Zeile", value.getContent());
 		Assert.assertEquals("Kommentar zum Testeintrag", value.getDesc());

@@ -1,7 +1,7 @@
 package bob.api;
 
 /**
- * Beschreibt eine Zustand des Programms, der zu einem späteren Zeitpunkt wieder
+ * Beschreibt eine Zustand des Programms, der zu einem spÃ¤teren Zeitpunkt wieder
  * abgerufen werden kann.
  * 
  * @author maik@btmx.net
