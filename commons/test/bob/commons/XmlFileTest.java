@@ -15,7 +15,7 @@ import bob.commons.XmlFile.XmlValue;
  */
 public class XmlFileTest {
 
-	/** Konstante f�r Schl�ssel */
+	/** Konstante für Schlüssel */
 	private static final String KEY = "junit.1";
 
 	@Test
