@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project csvexport">
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="${dir.buildfile}/.."/>
+    <property name="dir.jarfile" value="C:/Temp"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/csvexport.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="bob.gadget.csvexport.CsvTabellenTool"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.buildfile}/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Entwicklung/Ressourcen/commons-csv-1.4-bin/commons-csv-1.4.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Entwicklung/Ressourcen/jtds-1.2.5/jtds-1.2.5.jar"/>
+            <fileset dir="C:/Eclipse/git/bobtool/commons/bin"/>
+            <fileset dir="${dir.workspace}/base/bin"/>
+        </jar>
+    </target>
+</project>

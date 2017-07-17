@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<xmlfile>
-	<xmlvalue id="junit.1" desc="Kommentar zum Testeintrag"><![CDATA[erste Zeile
-und zweite Zeile]]></xmlvalue>
-	<xmlvalue id="junit.2" desc="leerer Testeintrag"></xmlvalue>
-</xmlfile>
