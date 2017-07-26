@@ -207,7 +207,8 @@ public class CsvTabellenWrite {
 						if (!restricted.contains(columnLabel)) {
 							values.add(Utils.trim(value));
 						}
-						if (null != filter && columnLabel.equals(filter.columnname)) {
+						if (null != filter
+								&& columnLabel.equals(filter.columnname.replaceAll("\\[", "").replaceAll("\\]", ""))) {
 							filter.letzterWert = Long.parseLong(value);
 						}
 					}
@@ -343,7 +344,7 @@ public class CsvTabellenWrite {
 		private BurvarFilter(final String filtername) throws BobException {
 			this.columnname = filtername;
 			this.dbkey = Utils.maskFileName(String.format("%s_%s", tablename, filtername)).toLowerCase();
-			this.comment = String.format("letzter Filterwert für \"%s\" in Spalte \"%s\"", tablename, filtername);
+			this.comment = String.format("letzter Filterwert \"%s\" Spalte \"%s\"", tablename, filtername);
 			final BurDatabaseVars vars = BurDatabaseVars.getRefreshed();
 			final Long x = vars.searchNumber(dbkey);
 			if (null == x) {
@@ -361,7 +362,7 @@ public class CsvTabellenWrite {
 
 		@Override
 		public String toString() {
-			final String x = letzterWert == Long.MIN_VALUE ? "INIT" : String.valueOf(letzterWert);
+			final String x = (letzterWert == Long.MIN_VALUE ? "INIT" : String.valueOf(letzterWert));
 			return String.format("[%s] = %s", dbkey, x);
 		}
 

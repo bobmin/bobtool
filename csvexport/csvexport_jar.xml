@@ -12,8 +12,8 @@
             <fileset dir="${dir.buildfile}/bin"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/Entwicklung/Ressourcen/commons-csv-1.4-bin/commons-csv-1.4.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/Entwicklung/Ressourcen/jtds-1.2.5/jtds-1.2.5.jar"/>
-            <fileset dir="C:/Eclipse/git/bobtool/commons/bin"/>
-            <fileset dir="${dir.workspace}/base/bin"/>
+            <fileset dir="C:/Eclipse/workspace_neon/commons/bin"/>
+            <fileset dir="C:/Eclipse/workspace_neon/base/bin"/>
         </jar>
     </target>
 </project>
